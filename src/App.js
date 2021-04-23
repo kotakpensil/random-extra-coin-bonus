@@ -10,25 +10,25 @@ import { Container, Jumbotron } from "react-bootstrap"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
 function App() {
-  return (
-    <Router>
-      <div className="BonusApp">
-        <ToastContainer />
-        <Switch>
-          <Route exact path="/">
-            <Jumbotron>
-              <BonusForm />
-            </Jumbotron>
-          </Route>
-          <Route path="/daftarbonus">
-            <Container>
-              <Bonus />
-            </Container>
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="BonusApp">
+                <ToastContainer />
+                <Switch>
+                    <Route exact path="/">
+                        <Jumbotron>
+                            <BonusForm />
+                        </Jumbotron>
+                    </Route>
+                    <Route path="/daftarbonus">
+                        <Container>
+                           <Bonus />
+                        </Container>
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 export default App;

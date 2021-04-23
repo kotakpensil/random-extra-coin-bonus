@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Row, Button } from "react-bootstrap"
 import db from '../resources/firebase.config'
+
+import { Table, Button } from "react-bootstrap"
 
 const Bonus = () => {
     const [bonus, setBonus] = useState([])
@@ -26,19 +27,28 @@ const Bonus = () => {
     }
 
     return (
-        <>
+        <Table striped hover size="sm">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Bonus</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             {
                 bonus.map((item) => {
                     return (
-                        <Row className="Item" key={ item.id }>
-                            <Col>{ item.username }</Col>
-                            <Col>{ item.bonus }</Col>
-                            <Col><Button size="sm" onClick={ () => onDeleteBonus(item.id) }>delete</Button></Col>
-                        </Row>
+                        <tr className="Item" key={ item.id }>
+                            <td>{ item.username }</td>
+                            <td>{ item.bonus }</td>
+                            <td><Button size="sm" onClick={ () => onDeleteBonus(item.id) }>delete</Button></td>
+                        </tr>
                     )
                 })
             }
-        </>
+            </tbody>
+        </Table>
     )
 }
 

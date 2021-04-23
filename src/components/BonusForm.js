@@ -1,52 +1,60 @@
 import React, { useState } from "react"
 import db from "../resources/firebase.config"
+
 import AnimatedNumber from "react-animated-numbers"
-import { Button, Form } from "react-bootstrap"
+
+import { Button, Container, Form } from "react-bootstrap"
 import { toast } from "react-toastify"
 
 const BonusForm = () => {
+    const collection = db.collection("daftarBonus/")
+
     const [username, setUsername] = useState("");
     const [bonus, setBonus] = useState(0)
+    var checkuser = false
 
-    const randomNumber = async() => {
+    const insertBonus = async() => {
         const min = 1000
         const max = 24000
         const random = Math.floor(Math.random() * (max - min + 1) + min)
         setBonus(random)
 
-        const daftarBonus = db.collection("daftarBonus");
+        await collection.doc().set({
+            username: username,
+            bonus: random,
+            created: Date().toLocaleString()
+        })
 
-        daftarBonus.where("username", "==", username).get()
-            .then(snapshot => {
-                try {
-                    if (snapshot.empty) {
-                        daftarBonus.doc().set({
-                            username: username,
-                            bonus: random,
-                            created: Date().toLocaleString()
-                        });
-                    } else {
-                        
-                    }
-                } catch (error) {
-                    console.error(error);
+        toast("Selamat boss dapat " + random, { type: "success" })
+    }
+
+    const userValidation = async() => {
+        await collection.where("username", "==", username).get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                if(doc.exists) {
+                    checkuser = true
                 }
             })
+        })
+
+        if(checkuser === true) {
+            toast("udah pernah ambil bosss woi", { type: "info" })
+        } else {
+            insertBonus()
+        }
     }
 
     const bonusValidation = () => {
         if (username !== "") { 
-            randomNumber()
+            userValidation()
         } else {
-            toast("Masukkan username dulu boss", {
-                type: "info"
-            })
+            toast("masukin username dulu boss", { type: "info" })
         }
 
     }
 
     return (
-        <Form>
+        <Container>
             <Form.Group>
                 <small>Masukkan username dengan benar. Kami tidak bertanggung jawab dengan pegisian username yang salah</small>
             </Form.Group>
@@ -61,9 +69,9 @@ const BonusForm = () => {
                 />
             </Form.Group>
             <Form.Group className="centered">
-                <Button size="lg"  onClick={ bonusValidation }>PUTAR BONUS</Button>
+                <Button size="lg" onClick={ bonusValidation }>PUTAR BONUS</Button>
             </Form.Group>
-        </Form>
+        </Container>
     )
 }
 
