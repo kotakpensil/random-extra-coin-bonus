@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import db from '../resources/firebase.config'
-
-import { Table, Button } from "react-bootstrap"
+import moment from 'moment'
 
 const Bonus = () => {
     const [bonus, setBonus] = useState([])
@@ -27,9 +26,10 @@ const Bonus = () => {
     }
 
     return (
-        <Table striped hover size="sm">
+        <table className="table table-sm table-stripped">
             <thead>
                 <tr>
+                    <th>Tgl Muternya</th>
                     <th>Username</th>
                     <th>Bonus</th>
                     <th></th>
@@ -40,15 +40,19 @@ const Bonus = () => {
                 bonus.map((item) => {
                     return (
                         <tr className="Item" key={ item.id }>
+                            <td>
+                                { moment(item.created).format('DD MMMM YYYY - HH:mm:ss ') }
+                                (GMT{ moment(item.created).format('ZZ') })
+                            </td>
                             <td>{ item.username }</td>
                             <td>{ item.bonus }</td>
-                            <td><Button size="sm" onClick={ () => onDeleteBonus(item.id) }>delete</Button></td>
+                            <td><button className="btn btn-danger btn-sm" onClick={ () => onDeleteBonus(item.id) }>delete</button></td>
                         </tr>
                     )
                 })
             }
             </tbody>
-        </Table>
+        </table>
     )
 }
 

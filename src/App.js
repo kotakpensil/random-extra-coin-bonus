@@ -2,31 +2,30 @@ import React from "react"
 import Bonus from "./components/Bonus"
 import BonusForm from "./components/BonusForm"
 
-import "bootstrap/dist/css/bootstrap.min.css"
-import "react-toastify/dist/ReactToastify.css"
-
-import { ToastContainer } from "react-toastify"
-import { Container, Jumbotron } from "react-bootstrap"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
 function App() {
     return (
         <Router>
             <div className="BonusApp">
-                <ToastContainer />
                 <Switch>
                     <Route exact path="/">
-                        <Jumbotron>
-                            <BonusForm />
-                        </Jumbotron>
+                        <div className="card">
+                            <div className="card-body">
+                                <BonusForm />
+                            </div>
+                        </div>
                     </Route>
                     <Route path="/daftarbonus">
-                        <Container>
-                           <Bonus />
-                        </Container>
+                        <div className="container-fluid">
+                            <Bonus />
+                        </div>
                     </Route>
                 </Switch>
             </div>
+            <footer className="bg-light text-center fixed-bottom">
+                <div className="container p-4">Sponsored by <a href="https://ovo805.com" target="_new">Ovobos</a></div>
+            </footer>
         </Router>
     );
 }
